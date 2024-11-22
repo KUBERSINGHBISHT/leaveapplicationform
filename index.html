@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            /* justify-content: center; */
+            align-items: center;
+            height: 100vh;
+            color: #333;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #4CAF50;
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .form-container label {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: #555;
+        }
+
+        .voucher label {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: black;
+        }
+
+        .form-container input, .form-container select, .form-container button {
+            /* width: 100%; */
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            /* margin-bottom: 20px; */
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 100%;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .voucher {
+            display: none;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .voucher h2 {
+            color: #4CAF50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .voucher div {
+            margin-bottom: 15px;
+        }
+
+        .signature-box {
+            border: 1px solid black;
+            height: 60px;
+            margin-top: 10px;
+            padding: 10px;
+            text-align: center;
+            font-style: italic;
+            color: #999;
+        }
+
+        .print-button {
+            display: block;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .print-button:hover {
+            background-color: #45a049;
+        }
+
+        @media print {
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+          var rnum = "";
+
+        // function AddRow() {
+
+        //     var application_date = document.getElementById("applicationDate").value;
+        //     var name = document.getElementById("name").value;
+        //     var departments = document.getElementById("department").value;
+        //     var leave_type = document.getElementById("leaveType").value;
+        //     var leave_reason = document.getElementById("leaveReason").value;
+        //     var start_date = document.getElementById("startDate").value;
+        //     var end_date = document.getElementById("endDate").value;
+        //     var emergency_contact = document.getElementById("emergencyContact").value;
+        //     var other_reason = document.getElementById("otherReason");
+        //     var specified_reason = '';
+
+        //      if (leave_reason === "Other") {
+        //        specified_reason = other_reason.value;
+        //      }else{
+        //        specified_reason = leave_reason;
+        //      }
+
+        //     if (name != '' && application_date != '' && departments != '' && leave_type != '' && leaveReason != '' && start_date != '' && end_date != '' && emergency_contact != '') {
+        //         google.script.run.withSuccessHandler(function (return_string) {
+        //             document.getElementById("add_button1").disabled = false;
+        //         }).AddRecord(name, application_date, departments, leave_type, specified_reason, start_date, end_date, emergency_contact);
+        //     }
+        // }
+
+         function handleReasonChange() {
+                 const leaveReason = document.getElementById("leaveReason").value;
+                const otherReasonDiv = document.getElementById("otherReasonDiv");
+                const otherReasonInput = document.getElementById("otherReason");
+                
+                if (leaveReason === "Other") {
+                    otherReasonDiv.style.display = "block"; // Show the text box
+                    otherReasonInput.setAttribute("required", "required");
+                    // document.getElementById('leaveReason').value = otherReasonInput;
+                } else {
+                    otherReasonDiv.style.display = "none"; // Hide the text box
+                    otherReasonInput.removeAttribute("required");
+                }
+            }
+
+    </script>
+    <div class="form-container" id="formContainer">
+        <h1>Leave Application Form</h1>
+        <form method="post" id="leaveForm">
+            <label for="company">Company Name:</label>
+            <select id="company" name="company" required>
+                <option value="">Select Company</option>
+                <option value="Monsoon Agrochemicals Pvt. Ltd.">Monsoon</option>
+                <option value="Oswal Crop Protection Pvt. Ltd.">Oswal</option>
+                <option value="Luchem Crop Science Pvt. Ltd.">Luchem</option>
+                <option value="Nutribio Fertiliser Pvt. Ltd.">Nutribio</option>
+            </select>
+            <label for="applicationDate">Application Date:</label>
+            <input type="date" id="applicationDate" name="applicationDate" required>
+            
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            
+            <label for="department">Department:</label>
+            <select id="department" name="department" required>
+                <option value="">Select Department</option>
+                <option value="Accounts">Accounts</option>
+                <option value="Admin">Admin</option>
+                <option value="Designing">Designing</option>
+                <option value="Finance">Finance</option>
+                <option value="HR Departments">HR Departments</option>
+                <option value="IT Sector">IT Sector</option>
+                <option value="Production">Production</option>
+                <option value="Purchase">Purchase</option>
+                <option value="Quality Control">Quality Control</option>
+                <option value="Regulatory Affairs">Regulatory Affairs</option>
+                <option value="Research & Developer">Research & Developer</option>
+                <option value="Sales & Marketing">Sales & Marketing</option>
+                <option value="Supply Chain">Supply Chain</option>
+                <option value="Legal">Legal</option>
+                <option value="IPR & Trade Mark">IPR & Trade Mark</option>
+            </select>
+
+            <label for="leaveType">Leave Requested For:</label>
+            <select id="leaveType" name="leaveType" required>
+                <option value="">Select Leave Type</option>
+                <option value="Morning Short Leave (10:00 am to 12:30 pm)">Morning Short Leave (10:00 am to 12:30 pm)</option>
+                <option value="Evening Short Leave  (04:00 pm to 06:30 pm)">Evening Short Leave  (04:00 pm to 06:30 pm)</option>
+                <option value="First Half Leave (10:00 am to 02:00 pm)">First Half Leave (10:00 am to 02:00 pm)</option>
+                <option value="Second Half Leave (02:00 pm to 06:30 pm)">Second Half Leave (02:00 pm to 06:30 pm)</option>
+                <option value="Full Day">Full Day</option>
+                <option value="OD">OD</option>
+            </select>
+
+            <label for="leaveReason">Reason For Leave:</label>
+            <!-- <select id="leaveReason" name="leaveReason" required> -->
+            <select id="leaveReason" name="leaveReason" required onchange="handleReasonChange()">
+                <option value="">Select Reason</option>
+                <option value="Personal">Personal</option>
+                <option value="Sick">Sick</option>
+                <option value="Planned">Planned</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <div id="otherReasonDiv" style="display: none; margin-top: 10px;">
+                <label for="otherReason">Please specify:</label>
+                <input type="text" id="otherReason" name="otherReason1">
+            </div>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate" required>
+            
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate" required>
+            
+            <label for="emergencyContact">Emergency Contact Number:</label>
+            <input type="tel" id="emergencyContact" name="emergencyContact" placeholder="Enter emergency contact number" pattern="[0-9]{10}" required>
+
+            <label for="email">Email ID:</label>
+            <input type="email" id="email" name="email" required>
+
+            <!-- <button type="submit" onclick="AddRow()" id="add_button1">Submit Application</button> -->
+            <button  id="add_button1">Submit Application</button>
+        </form>
+    </div>
+
+    <div class="voucher" id="voucher">
+        <div style="text-align: center; font-size: 35px; font-weight: bold; border-bottom: 2px solid; padding-bottom: 10px;"><span id="companyvoucher"></span></div>
+        <h2>Leave Application Voucher</h2>
+        <div><label>Application Date:</label> <span id="applicationDatev"></span></div>
+        <div><label>Name:</label> <span id="voucherName"></span></div>
+        <div><label>Department:</label> <span id="voucherDepartment"></span></div>
+        <div><label>Leave Requested For:</label> <span id="voucherLeaveType"></span></div>
+        <div><label>Reason For Leave:</label> <span id="voucherLeaveReason"></span></div>
+        <div><label>Start Date:</label> <span id="voucherStartDate"></span></div>
+        <div><label>End Date:</label> <span id="voucherEndDate"></span></div>
+        <div><label>Emergency Contact No.:</label> <span id="voucherContact"></span></div>
+        <div><label>Email ID:</label> <span id="voucheremail"></span></div>
+        <div>
+            <label>Department Head Signature:</label>
+            <div class="signature-box"></div>
+        </div>
+        <div>
+            <label>HR Signature:</label>
+            <div class="signature-box"></div>
+        </div>
+        <button class="print-button" onclick="window.print()">Print</button>
+    </div>
+    <script>
+        const form = document.getElementById('leaveForm');
+        const formContainer = document.getElementById('formContainer');
+        const voucher = document.getElementById('voucher');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const leaveReason = form.leaveReason.value;
+            const otherReason = form.otherReason.value;
+
+            const reasonToDisplay = leaveReason === "Other" ? otherReason : leaveReason;
+            
+            // Extract form data
+            document.getElementById('companyvoucher').innerText = form.company.value;
+            document.getElementById('applicationDatev').innerText = form.applicationDate.value;
+            document.getElementById('voucherName').innerText = form.name.value;
+            document.getElementById('voucherDepartment').innerText = form.department.value;
+            document.getElementById('voucherLeaveType').innerText = form.leaveType.value;
+            // document.getElementById('voucherLeaveReason').innerText = form.leaveReason.value;
+            // document.getElementById('voucherLeaveReason').innerText = form.otherReason.value;
+            document.getElementById('voucherLeaveReason').innerText = reasonToDisplay;
+            document.getElementById('voucherStartDate').innerText = form.startDate.value;
+            document.getElementById('voucherEndDate').innerText = form.endDate.value;
+            document.getElementById('voucherContact').innerText = form.emergencyContact.value;
+            document.getElementById('voucheremail').innerText = form.email.value;
+
+            // Hide form and show voucher
+            formContainer.style.display = 'none';
+            voucher.style.display = 'block';
+
+        });
+
+            // let url='https://script.google.com/macros/s/AKfycby9BpR2DlNvvJTROUeiVdZjBVhFS5qnZSbRKxbpzRGFhu5E66Jhyh89zEFIblJiuRH4/exec';
+            let url='https://script.google.com/macros/s/AKfycbzLdMshnEgu46jKdRec4KsHKC70KAbuSP-u5HOSW8LE3SF2_UKm3Gejz_hoYA_kCS_Wpg/exec';
+            let form1 = document.querySelector('#leaveForm');
+            form1.addEventListener("submit",(e)=>{
+            let d=new FormData(form1);
+            fetch(url,{
+                method:"POST",
+                body:d
+            }).then((res)=>res.text())
+            .then((finalRes)=>console.log(finalRes))
+            e.preventDefault();
+        })      
+    </script>
+</body>
+</html>
