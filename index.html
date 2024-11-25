@@ -85,6 +85,7 @@
             background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
+            border: double;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 600px;
@@ -102,7 +103,7 @@
             margin-bottom: 15px;
         }
 
-        .signature-box {
+        /* .signature-box {
             border: 1px solid black;
             height: 60px;
             margin-top: 10px;
@@ -110,6 +111,24 @@
             text-align: center;
             font-style: italic;
             color: #999;
+        } */
+
+        .signature-row {
+            display: flex;
+            justify-content: space-between; /* Space out the signature boxes */
+            gap: 20px; /* Optional: Adds space between the two signature boxes */
+        }
+
+        .signature-item {
+            flex: 1; /* Ensures both signature boxes are of equal width */
+        }
+
+        .signature-box {
+            width: 250px; /* Adjust the width of the signature box */
+            height: 100px; /* Adjust the height */
+            border: 1px solid black; /* Gives the box a visible border */
+            background-color: #f0f0f0; /* Optional: Background color for the box */
+            margin-top: 5px; /* Optional: Adds space between label and the box */
         }
 
         .print-button {
@@ -122,7 +141,7 @@
             font-size: 1.1rem;
             cursor: pointer;
             font-weight: bold;
-            margin-top: 20px;
+            /* margin-top: 1px; */
         }
 
         .print-button:hover {
@@ -275,13 +294,15 @@
         <div><label>End Date:</label> <span id="voucherEndDate"></span></div>
         <div><label>Emergency Contact No.:</label> <span id="voucherContact"></span></div>
         <div><label>Email ID:</label> <span id="voucheremail"></span></div>
-        <div>
-            <label>Department Head Signature:</label>
-            <div class="signature-box"></div>
-        </div>
-        <div>
-            <label>HR Signature:</label>
-            <div class="signature-box"></div>
+        <div class="signature-row">
+            <div class="signature-item">
+                <label>Department Head Signature:</label>
+                <div class="signature-box"></div>
+            </div>
+            <div class="signature-item">
+                <label>HR Signature:</label>
+                <div class="signature-box"></div>
+            </div>
         </div>
         <button class="print-button" onclick="window.print()">Print</button>
     </div>
@@ -319,7 +340,7 @@
         });
 
             // let url='https://script.google.com/macros/s/AKfycby9BpR2DlNvvJTROUeiVdZjBVhFS5qnZSbRKxbpzRGFhu5E66Jhyh89zEFIblJiuRH4/exec';
-            let url='https://script.google.com/macros/s/AKfycbzLdMshnEgu46jKdRec4KsHKC70KAbuSP-u5HOSW8LE3SF2_UKm3Gejz_hoYA_kCS_Wpg/exec';
+            let url='https://script.google.com/macros/s/AKfycbyq718S6XesN6RNjaprGIl2Rkrboa2Sbd1DSg7De0f50A_BY4wd8gu2JT14OhyfeKLd/exec';
             let form1 = document.querySelector('#leaveForm');
             form1.addEventListener("submit",(e)=>{
             let d=new FormData(form1);
