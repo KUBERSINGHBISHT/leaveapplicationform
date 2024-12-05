@@ -51,6 +51,20 @@
             margin-bottom: 8px;
             display: block;
             color: black;
+            margin-left: 13.5px;
+        }
+
+        .signature-row label {
+            margin-left: 0px;
+        }
+
+        .voucher span {
+            /* font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: black; */
+            margin-left: 13.5px;
         }
 
         .form-container input, .form-container select, .form-container button {
@@ -117,6 +131,8 @@
             display: flex;
             justify-content: space-between; /* Space out the signature boxes */
             gap: 20px; /* Optional: Adds space between the two signature boxes */
+            text-align: center;
+            padding-bottom: 0px;
         }
 
         .signature-item {
@@ -124,11 +140,12 @@
         }
 
         .signature-box {
-            width: 250px; /* Adjust the width of the signature box */
+            width: 185px; /* Adjust the width of the signature box */
             height: 100px; /* Adjust the height */
             border: 1px solid black; /* Gives the box a visible border */
             background-color: #f0f0f0; /* Optional: Background color for the box */
             margin-top: 5px; /* Optional: Adds space between label and the box */
+            border-radius: 20px;
         }
 
         .print-button {
@@ -214,7 +231,7 @@
                 <option value="Nutribio Fertiliser Pvt. Ltd.">Nutribio</option>
             </select>
             <label for="applicationDate">Application Date:</label>
-            <input type="date" id="applicationDate" name="applicationDate" required>
+            <input type="date" id="applicationDate" name="applicationDate" required disabled>
             
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" placeholder="Enter your full name" required>
@@ -294,12 +311,16 @@
         <div><label>End Date:</label> <span id="voucherEndDate"></span></div>
         <div><label>Emergency Contact No.:</label> <span id="voucherContact"></span></div>
         <div><label>Email ID:</label> <span id="voucheremail"></span></div>
-        <div class="signature-row">
-            <div class="signature-item">
-                <label>Department Head Signature:</label>
+        <div class="signature-row" style="margin-bottom: 0px;">
+            <div class="signature-item" style="margin-bottom: 0px;">
+                <label>Employee Signature:</label>
                 <div class="signature-box"></div>
             </div>
-            <div class="signature-item">
+            <div class="signature-item" style="margin-bottom: 0px;">
+                <label>HOD Signature:</label>
+                <div class="signature-box"></div>
+            </div>
+            <div class="signature-item" style="margin-bottom: 0px;">
                 <label>HR Signature:</label>
                 <div class="signature-box"></div>
             </div>
@@ -321,17 +342,34 @@
             
             // Extract form data
             document.getElementById('companyvoucher').innerText = form.company.value;
-            document.getElementById('applicationDatev').innerText = form.applicationDate.value;
+            // document.getElementById('applicationDatev').innerText = form.applicationDate.value;
             document.getElementById('voucherName').innerText = form.name.value;
             document.getElementById('voucherDepartment').innerText = form.department.value;
             document.getElementById('voucherLeaveType').innerText = form.leaveType.value;
             // document.getElementById('voucherLeaveReason').innerText = form.leaveReason.value;
             // document.getElementById('voucherLeaveReason').innerText = form.otherReason.value;
             document.getElementById('voucherLeaveReason').innerText = reasonToDisplay;
-            document.getElementById('voucherStartDate').innerText = form.startDate.value;
-            document.getElementById('voucherEndDate').innerText = form.endDate.value;
+            // document.getElementById('voucherStartDate').innerText = form.startDate.value;
+            // document.getElementById('voucherEndDate').innerText = form.endDate.value;
             document.getElementById('voucherContact').innerText = form.emergencyContact.value;
             document.getElementById('voucheremail').innerText = form.email.value;
+
+            const dateValue = form.startDate.value; // Get the date value from the form input
+            const date = new Date(dateValue); // Convert to Date object
+            const formattedDate = date.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
+            document.getElementById('voucherStartDate').innerText = formattedDate; // Update span
+
+            const dateValue1 = form.endDate.value; // Get the date value from the form input
+            const date1 = new Date(dateValue1); // Convert to Date object
+            const formattedDate1 = date1.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
+            document.getElementById('voucherEndDate').innerText = formattedDate1; // Update span
+
+
+            const dateValue2 = form.applicationDate.value; // Get the date value from the form input
+            const date2 = new Date(dateValue2); // Convert to Date object
+            const formattedDate2 = date2.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
+            document.getElementById('applicationDatev').innerText = formattedDate2; // Update span
+
 
             // Hide form and show voucher
             formContainer.style.display = 'none';
@@ -339,8 +377,13 @@
 
         });
 
-            // let url='https://script.google.com/macros/s/AKfycby9BpR2DlNvvJTROUeiVdZjBVhFS5qnZSbRKxbpzRGFhu5E66Jhyh89zEFIblJiuRH4/exec';
-            let url='https://script.google.com/macros/s/AKfycbyq718S6XesN6RNjaprGIl2Rkrboa2Sbd1DSg7De0f50A_BY4wd8gu2JT14OhyfeKLd/exec';
+
+        // Get the current date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+        // Set the default value of the input field to the current date
+        document.getElementById('applicationDate').value = today;
+
+            let url='https://script.google.com/macros/s/AKfycbygOejd4D8EgXfJVVCZfm4GcVTdZl63KE_s53KO7burAs7zYj4NJJ7Mm7JqfYmuK2URsw/exec';
             let form1 = document.querySelector('#leaveForm');
             form1.addEventListener("submit",(e)=>{
             let d=new FormData(form1);
@@ -350,7 +393,7 @@
             }).then((res)=>res.text())
             .then((finalRes)=>console.log(finalRes))
             e.preventDefault();
-        })      
+        })
     </script>
 </body>
 </html>
