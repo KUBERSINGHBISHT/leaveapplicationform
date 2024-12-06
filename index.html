@@ -170,6 +170,50 @@
                 display: none;
             }
         }
+        
+        @media screen and (max-width: 768px) {
+            .voucher {
+                padding: 15px;
+                width: 95%;
+            }
+
+            .voucher h2 {
+                font-size: 1.5rem;
+            }
+
+            .signature-row {
+                gap: 20px; /* Add spacing between stacked items */
+            }
+
+            .signature-box {
+                width: 100px;
+                height: 80px;
+            }
+
+            .print-button {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .voucher h2 {
+                font-size: 1.2rem;
+            }
+
+            label {
+                font-size: 0.9rem;
+            }
+
+            .signature-box {
+                height: 70px;
+            }
+
+            .print-button {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+        }
     </style>
 </head>
 
