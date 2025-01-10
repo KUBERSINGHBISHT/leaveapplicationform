@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 100px;
+            text-align: center;
+            background: #a8ff78;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+
+        }
+
+        form {
+            width: 300px;
+            border: 2px double black;
+            border-bottom: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 30px;
+            border-radius: 10px 10px 0px 0px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form input {
+            width: 250px;
+            height: 35px;
+            margin: 30px 30px 0px 30px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid gray;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            width: 250px;
+            height: 35px;
+            margin: 30px 30px 0px 30px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid gray;
+        }
+
+        div {
+            width: 300px;
+            border: 2px double black;
+            padding: 0px 30px 30px 30px;
+            border-top: none;
+            border-radius: 0px 0px 10px 10px;
+            text-align: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 25px;
+            margin-bottom: 80px;
+            color: #4CAF50;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+        }
+
+        form img {
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Kindly Registerd Your Name For Filling Leave Application Form</h1>
+    <form method="post" id="leaveForm">
+        <a href="./index.html"><img src="./home.png" alt="Home" width="25" height="25"></a>
+        <h2>New Employee Registration</h2>
+        <input type="text" name="name" id="nameInput" placeholder="Enter Your Name Here" autocomplete="off" required>
+        <button>Submit</button>
+    </form>
+    <div id="responseMessage"></div>
+    <script>
+        let url = 'https://script.google.com/macros/s/AKfycbyboN9ncXuZg2hW6DrDaHR-pUFOtcCMAYTU7bRMrWLARJXqfuOn9pMVk3PF4DKo1qQg2g/exec';
+        let form1 = document.querySelector('#leaveForm');
+        let nameInput = document.querySelector('#nameInput');
+        let responseMessage = document.querySelector('#responseMessage');
+
+        // Function to convert text to proper case
+        function toProperCase(text) {
+            return text.replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+        }
+
+        form1.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            // Convert the input to proper case
+            nameInput.value = toProperCase(nameInput.value);
+
+            // Show a "Submitting..." message
+            responseMessage.textContent = 'Submitting...';
+            responseMessage.style.color = 'blue';
+
+            let formData = new FormData(form1);
+            // let formData = new FormData(form1);
+            formData.append("action", "addToSheet2"); // Change to "addToSheet2" for Sheet2 logic
+
+            fetch(url, {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(finalRes => {
+                if (finalRes.status === 'duplicate') {
+                    responseMessage.textContent = 'Duplicate name detected. Please enter a different name.';
+                    responseMessage.style.color = 'red';
+                } else if (finalRes.status === 'success') {
+                    responseMessage.textContent = 'Name submitted successfully!';
+                    responseMessage.style.color = 'green';
+                    nameInput.value='';
+                }
+            })
+            .catch(err => {
+                responseMessage.textContent = 'An error occurred. Please try again.';
+                responseMessage.style.color = 'red';
+            });
+        });
+    </script>
+</body>
+</html>

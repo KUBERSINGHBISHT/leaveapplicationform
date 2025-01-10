@@ -223,6 +223,29 @@
                 padding: 6px 12px;
             }
         }
+
+        .newone {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .newone a{
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: bold;
+            width: 150px;
+            height: 25px;
+            text-align: center;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -287,7 +310,13 @@
             <input type="date" id="applicationDate" name="applicationDate" required disabled>
             
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            <div class="newone">
+            <!-- <input type="text" id="name" name="name" placeholder="Enter your full name" required> -->
+            <select id="name-select" name="name" required>
+                <option value="">Data Loading...</option>
+            </select>
+            <a href="./nameRegisterd.html">New User</a>
+            </div>
             
             <label for="department">Department:</label>
             <select id="department" name="department" required>
@@ -436,17 +465,84 @@
         // Set the default value of the input field to the current date
         document.getElementById('applicationDate').value = today;
 
-            let url='https://script.google.com/macros/s/AKfycbygOejd4D8EgXfJVVCZfm4GcVTdZl63KE_s53KO7burAs7zYj4NJJ7Mm7JqfYmuK2URsw/exec';
+        //     let url='https://script.google.com/macros/s/AKfycbxf09jg7wLImqlu9jJyPjrwaOgzZAkqooId90qI1KUcyw_AkZhIPB0zAUWw0tgkCMRCWw/exec';
+        //     let form1 = document.querySelector('#leaveForm');
+        //     form1.addEventListener("submit",(e)=>{
+        //     let d=new FormData(form1);
+        //     fetch(url,{
+        //         method:"POST",
+        //         body:d
+        //     }).then((res)=>res.text())
+        //     .then((finalRes)=>console.log(finalRes))
+        //     e.preventDefault();
+        // })
+
+        /////////////////////////////////////////
+            let url = 'https://script.google.com/macros/s/AKfycbyboN9ncXuZg2hW6DrDaHR-pUFOtcCMAYTU7bRMrWLARJXqfuOn9pMVk3PF4DKo1qQg2g/exec';
             let form1 = document.querySelector('#leaveForm');
-            form1.addEventListener("submit",(e)=>{
-            let d=new FormData(form1);
-            fetch(url,{
-                method:"POST",
-                body:d
-            }).then((res)=>res.text())
-            .then((finalRes)=>console.log(finalRes))
+
+            form1.addEventListener("submit", (e) => {
             e.preventDefault();
+
+            // Add the 'action' parameter dynamically
+            let formData = new FormData(form1);
+            formData.append("action", "addToSheet1"); // Change to "addToSheet1" for Sheet1 logic
+
+            fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then((res) => res.text())
+                .then((finalRes) => console.log(finalRes))
+                .catch((err) => console.error("Error:", err));
+            });
+
+        /////////// Getting Employee Data From Server
+
+        //const url1 = 'https://script.google.com/macros/s/AKfycbwQ16yRWWk-yxUcht9_hKTICWtSVJhufyQxyGIyZKoiznkIek6x9gbK9LRgujW4nKZp7g/exec'; // Your Apps Script URL
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('name-select');
+            select.innerHTML = ""; // Clear existing options
+
+            // Add a placeholder option
+            const placeholderOption = document.createElement('option');
+            placeholderOption.value = "";
+            placeholderOption.textContent = "Select your name";
+            placeholderOption.disabled = true;
+            placeholderOption.selected = true;
+            select.appendChild(placeholderOption);
+
+            // Check if data exists
+            if (data.values && data.values.length > 0) {
+            data.values.forEach((row, index) => {
+                if (index > 0) { // Skip the header row if present
+                const option = document.createElement('option');
+                option.value = row[0]; // Assuming names are in the first column
+                option.textContent = row[0]; // Display the name in the dropdown
+                select.appendChild(option);
+                }
+            });
+            } else {
+            // If no data found, add a "No data" option
+            const noDataOption = document.createElement('option');
+            noDataOption.value = "";
+            noDataOption.textContent = "No data found";
+            noDataOption.disabled = true;
+            select.appendChild(noDataOption);
+            }
         })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            const select = document.getElementById('name-select');
+            select.innerHTML = ""; // Clear existing options
+            const errorOption = document.createElement('option');
+            errorOption.value = "";
+            errorOption.textContent = "Error loading data";
+            errorOption.disabled = true;
+            select.appendChild(errorOption);
+        });
     </script>
 </body>
 </html>
