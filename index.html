@@ -7,14 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        /* Global Styles */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f7fc;
             margin: 0;
             padding: 0;
             display: flex;
-            /* justify-content: center; */
             align-items: center;
             height: 100vh;
             color: #333;
@@ -59,20 +57,13 @@
         }
 
         .voucher span {
-            /* font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-            display: block;
-            color: black; */
             margin-left: 13.5px;
         }
 
         .form-container input, .form-container select, .form-container button {
-            /* width: 100%; */
             padding: 12px;
             border-radius: 6px;
             border: 1px solid #ddd;
-            /* margin-bottom: 20px; */
             font-size: 1rem;
             transition: border-color 0.3s, box-shadow 0.3s;
             width: 100%;
@@ -117,34 +108,24 @@
             margin-bottom: 15px;
         }
 
-        /* .signature-box {
-            border: 1px solid black;
-            height: 60px;
-            margin-top: 10px;
-            padding: 10px;
-            text-align: center;
-            font-style: italic;
-            color: #999;
-        } */
-
         .signature-row {
             display: flex;
-            justify-content: space-between; /* Space out the signature boxes */
-            gap: 20px; /* Optional: Adds space between the two signature boxes */
+            justify-content: space-between; 
+            gap: 20px;
             text-align: center;
             padding-bottom: 0px;
         }
 
         .signature-item {
-            flex: 1; /* Ensures both signature boxes are of equal width */
+            flex: 1; 
         }
 
         .signature-box {
-            width: 185px; /* Adjust the width of the signature box */
-            height: 100px; /* Adjust the height */
-            border: 1px solid black; /* Gives the box a visible border */
-            background-color: #f0f0f0; /* Optional: Background color for the box */
-            margin-top: 5px; /* Optional: Adds space between label and the box */
+            width: 185px; 
+            height: 100px;
+            border: 1px solid black; 
+            background-color: #f0f0f0;
+            margin-top: 5px;
             border-radius: 20px;
         }
 
@@ -158,11 +139,42 @@
             font-size: 1.1rem;
             cursor: pointer;
             font-weight: bold;
-            /* margin-top: 1px; */
         }
 
         .print-button:hover {
             background-color: #45a049;
+        }
+
+        #message {
+            width: 200px;
+            padding: 100px;
+            background-color: rgb(125, 218, 125);
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            font-size: 20px;
+        }
+
+        #okBtn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            border: none;
+            background-color: rgb(117, 196, 117);
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+            width: 60px;
+            height: 40px;
+        }
+        
+        #okBtn:hover {
+            background-color: green;
         }
 
         @media print {
@@ -182,7 +194,7 @@
             }
 
             .signature-row {
-                gap: 20px; /* Add spacing between stacked items */
+                gap: 20px;
             }
 
             .signature-box {
@@ -203,6 +215,12 @@
             margin-left: 10px;
             margin-right: 10px;
             }
+
+            #message {
+            width: 150px;
+            padding: 70px;
+            }
+
         }
 
         @media screen and (max-width: 480px) {
@@ -221,6 +239,11 @@
             .print-button {
                 font-size: 0.9rem;
                 padding: 6px 12px;
+            }
+
+            #message {
+            width: 150px;
+            padding: 70px;
             }
         }
 
@@ -251,48 +274,21 @@
 
 <body>
     <script>
-          var rnum = "";
+        var rnum = "";
 
-        // function AddRow() {
-
-        //     var application_date = document.getElementById("applicationDate").value;
-        //     var name = document.getElementById("name").value;
-        //     var departments = document.getElementById("department").value;
-        //     var leave_type = document.getElementById("leaveType").value;
-        //     var leave_reason = document.getElementById("leaveReason").value;
-        //     var start_date = document.getElementById("startDate").value;
-        //     var end_date = document.getElementById("endDate").value;
-        //     var emergency_contact = document.getElementById("emergencyContact").value;
-        //     var other_reason = document.getElementById("otherReason");
-        //     var specified_reason = '';
-
-        //      if (leave_reason === "Other") {
-        //        specified_reason = other_reason.value;
-        //      }else{
-        //        specified_reason = leave_reason;
-        //      }
-
-        //     if (name != '' && application_date != '' && departments != '' && leave_type != '' && leaveReason != '' && start_date != '' && end_date != '' && emergency_contact != '') {
-        //         google.script.run.withSuccessHandler(function (return_string) {
-        //             document.getElementById("add_button1").disabled = false;
-        //         }).AddRecord(name, application_date, departments, leave_type, specified_reason, start_date, end_date, emergency_contact);
-        //     }
-        // }
-
-         function handleReasonChange() {
-                 const leaveReason = document.getElementById("leaveReason").value;
-                const otherReasonDiv = document.getElementById("otherReasonDiv");
-                const otherReasonInput = document.getElementById("otherReason");
-                
-                if (leaveReason === "Other") {
-                    otherReasonDiv.style.display = "block"; // Show the text box
-                    otherReasonInput.setAttribute("required", "required");
-                    // document.getElementById('leaveReason').value = otherReasonInput;
-                } else {
-                    otherReasonDiv.style.display = "none"; // Hide the text box
-                    otherReasonInput.removeAttribute("required");
-                }
+        function handleReasonChange() {
+                const leaveReason = document.getElementById("leaveReason").value;
+            const otherReasonDiv = document.getElementById("otherReasonDiv");
+            const otherReasonInput = document.getElementById("otherReason");
+            
+            if (leaveReason === "Other") {
+                otherReasonDiv.style.display = "block"; // Show the text box
+                otherReasonInput.setAttribute("required", "required");
+            } else {
+                otherReasonDiv.style.display = "none"; // Hide the text box
+                otherReasonInput.removeAttribute("required");
             }
+        }
 
     </script>
     <div class="form-container" id="formContainer">
@@ -311,7 +307,6 @@
             
             <label for="name">Name:</label>
             <div class="newone">
-            <!-- <input type="text" id="name" name="name" placeholder="Enter your full name" required> -->
             <select id="name-select" name="name" required>
                 <option value="">Data Loading...</option>
             </select>
@@ -350,7 +345,6 @@
             </select>
 
             <label for="leaveReason">Reason For Leave:</label>
-            <!-- <select id="leaveReason" name="leaveReason" required> -->
             <select id="leaveReason" name="leaveReason" required onchange="handleReasonChange()">
                 <option value="">Select Reason</option>
                 <option value="Personal">Personal</option>
@@ -376,7 +370,6 @@
             <label for="email">Email ID:</label>
             <input type="email" id="email" name="email" required>
 
-            <!-- <button type="submit" onclick="AddRow()" id="add_button1">Submit Application</button> -->
             <button  id="add_button1">Submit Application</button>
         </form>
     </div>
@@ -409,98 +402,103 @@
         </div>
         <button class="print-button" onclick="window.print()">Print</button>
     </div>
+    <div id="message">
+        <p id="messageText">Data submitting...</p>
+        <button id="okBtn" style="display: none;">OK</button>
+    </div>
     <script>
-        const form = document.getElementById('leaveForm');
-        const formContainer = document.getElementById('formContainer');
-        const voucher = document.getElementById('voucher');
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const leaveReason = form.leaveReason.value;
-            const otherReason = form.otherReason.value;
-
-            const reasonToDisplay = leaveReason === "Other" ? otherReason : leaveReason;
-            
-            // Extract form data
-            document.getElementById('companyvoucher').innerText = form.company.value;
-            // document.getElementById('applicationDatev').innerText = form.applicationDate.value;
-            document.getElementById('voucherName').innerText = form.name.value;
-            document.getElementById('voucherDepartment').innerText = form.department.value;
-            document.getElementById('voucherLeaveType').innerText = form.leaveType.value;
-            // document.getElementById('voucherLeaveReason').innerText = form.leaveReason.value;
-            // document.getElementById('voucherLeaveReason').innerText = form.otherReason.value;
-            document.getElementById('voucherLeaveReason').innerText = reasonToDisplay;
-            // document.getElementById('voucherStartDate').innerText = form.startDate.value;
-            // document.getElementById('voucherEndDate').innerText = form.endDate.value;
-            document.getElementById('voucherContact').innerText = form.emergencyContact.value;
-            document.getElementById('voucheremail').innerText = form.email.value;
-
-            const dateValue = form.startDate.value; // Get the date value from the form input
-            const date = new Date(dateValue); // Convert to Date object
-            const formattedDate = date.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
-            document.getElementById('voucherStartDate').innerText = formattedDate; // Update span
-
-            const dateValue1 = form.endDate.value; // Get the date value from the form input
-            const date1 = new Date(dateValue1); // Convert to Date object
-            const formattedDate1 = date1.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
-            document.getElementById('voucherEndDate').innerText = formattedDate1; // Update span
-
-
-            const dateValue2 = form.applicationDate.value; // Get the date value from the form input
-            const date2 = new Date(dateValue2); // Convert to Date object
-            const formattedDate2 = date2.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
-            document.getElementById('applicationDatev').innerText = formattedDate2; // Update span
-
-
-            // Hide form and show voucher
-            formContainer.style.display = 'none';
-            voucher.style.display = 'block';
-
-        });
-
-
         // Get the current date in YYYY-MM-DD format
         const today = new Date().toISOString().split('T')[0];
         // Set the default value of the input field to the current date
         document.getElementById('applicationDate').value = today;
 
-        //     let url='https://script.google.com/macros/s/AKfycbxf09jg7wLImqlu9jJyPjrwaOgzZAkqooId90qI1KUcyw_AkZhIPB0zAUWw0tgkCMRCWw/exec';
-        //     let form1 = document.querySelector('#leaveForm');
-        //     form1.addEventListener("submit",(e)=>{
-        //     let d=new FormData(form1);
-        //     fetch(url,{
-        //         method:"POST",
-        //         body:d
-        //     }).then((res)=>res.text())
-        //     .then((finalRes)=>console.log(finalRes))
-        //     e.preventDefault();
-        // })
+        let url = 'https://script.google.com/macros/s/AKfycbzNKeZ6eabOoE0-c5JTdeRivixWuxqRew_qrYukPjjswUoJ9u0pHy8H6Knc3SNCAarPEg/exec';
+        let form1 = document.querySelector('#leaveForm');
+        let messageDiv = document.getElementById("message");
+        let messageText = document.getElementById("messageText");
+        let okBtn = document.getElementById("okBtn");
 
-        /////////////////////////////////////////
-            let url = 'https://script.google.com/macros/s/AKfycbyboN9ncXuZg2hW6DrDaHR-pUFOtcCMAYTU7bRMrWLARJXqfuOn9pMVk3PF4DKo1qQg2g/exec';
-            let form1 = document.querySelector('#leaveForm');
-
-            form1.addEventListener("submit", (e) => {
+        form1.addEventListener("submit", (e) => {
             e.preventDefault();
 
-            // Add the 'action' parameter dynamically
+            // Show the message box with "Data submitting..."
+            messageText.textContent = "Data submitting...";
+            messageDiv.style.display = "block";
+            okBtn.style.display = "none"; // Hide OK button while submitting
+
+            // Prepare form data
             let formData = new FormData(form1);
-            formData.append("action", "addToSheet1"); // Change to "addToSheet1" for Sheet1 logic
+            formData.append("action", "addToSheet1");
 
             fetch(url, {
                 method: "POST",
                 body: formData
             })
                 .then((res) => res.text())
-                .then((finalRes) => console.log(finalRes))
-                .catch((err) => console.error("Error:", err));
-            });
+                .then((finalRes) => {
+                    messageText.textContent = finalRes; // Show the response message
+                    okBtn.style.display = "block"; // Show OK button
+                    
 
-        /////////// Getting Employee Data From Server
+                     // Check if the response indicates success or duplicate entry
+                     if (finalRes.toLowerCase().includes("this form already submitted!")) {
+                        submissionSuccess = false; // Set flag for successful submission
+                        messageDiv.style.backgroundColor = 'rgb(224, 129, 129)';
+                        messageText.style.color = 'white';
+                        okBtn.style.backgroundColor = 'rgb(210, 85, 85)';
+                    } else {
+                        submissionSuccess = true; // Stay on the page if duplicate
+                    }
+                })
+                .catch((err) => {
+                    messageText.textContent = "Error submitting data!";
+                    okBtn.style.display = "block";
+                    console.error("Error:", err);
+                });
+        });
 
-        //const url1 = 'https://script.google.com/macros/s/AKfycbwQ16yRWWk-yxUcht9_hKTICWtSVJhufyQxyGIyZKoiznkIek6x9gbK9LRgujW4nKZp7g/exec'; // Your Apps Script URL
-        fetch(url)
+        // On OK button click, redirect if success, otherwise stay
+        okBtn.addEventListener("click", function() {
+            messageDiv.style.display = "none";
+            if (submissionSuccess) {
+                const form = document.getElementById('leaveForm');
+                const formContainer = document.getElementById('formContainer');
+                const voucher = document.getElementById('voucher');
+                
+                const leaveReason = form.leaveReason.value;
+                const otherReason = form.otherReason.value;
+
+                const reasonToDisplay = leaveReason === "Other" ? otherReason : leaveReason;
+                
+                // Extract form data
+                document.getElementById('companyvoucher').innerText = form.company.value;
+                document.getElementById('voucherName').innerText = form.name.value;
+                document.getElementById('voucherDepartment').innerText = form.department.value;
+                document.getElementById('voucherLeaveType').innerText = form.leaveType.value;
+                document.getElementById('voucherLeaveReason').innerText = reasonToDisplay;
+                document.getElementById('voucherContact').innerText = form.emergencyContact.value;
+                document.getElementById('voucheremail').innerText = form.email.value;
+                const dateValue = form.startDate.value; // Get the date value from the form input
+                const date = new Date(dateValue); // Convert to Date object
+                const formattedDate = date.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
+                document.getElementById('voucherStartDate').innerText = formattedDate; // Update span
+                const dateValue1 = form.endDate.value; // Get the date value from the form input
+                const date1 = new Date(dateValue1); // Convert to Date object
+                const formattedDate1 = date1.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
+                document.getElementById('voucherEndDate').innerText = formattedDate1; // Update span
+                const dateValue2 = form.applicationDate.value; // Get the date value from the form input
+                const date2 = new Date(dateValue2); // Convert to Date object
+                const formattedDate2 = date2.toLocaleDateString('en-GB'); // Format to 'dd/MM/yyyy'
+                document.getElementById('applicationDatev').innerText = formattedDate2; // Update span
+
+                // Hide form and show voucher
+                formContainer.style.display = 'none';
+                voucher.style.display = 'block';
+            }
+        });
+
+        let url1 = 'https://script.google.com/macros/s/AKfycbzNKeZ6eabOoE0-c5JTdeRivixWuxqRew_qrYukPjjswUoJ9u0pHy8H6Knc3SNCAarPEg/exec?action=fetchSheet2'
+        fetch(url1)
         .then(response => response.json())
         .then(data => {
             const select = document.getElementById('name-select');
